@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import socket
 import subprocess
-import re
+import re  # Regular expressions (re) module
 
 # আউটপুট সংরক্ষণের জন্য ফোল্ডার তৈরি করা
 def create_output_directory(domain):
@@ -49,25 +49,25 @@ def get_http_headers(url, output_dir):
     except requests.RequestException as e:
         print(f"An error occurred while fetching headers: {e}")
 
-# amass দিয়ে সাবডোমেইন এনুমারেশন
+# Amass দিয়ে সাবডোমেইন এনুমারেশন
 def enumerate_subdomains(domain, output_dir):
-    print("\n--- Enumerating Subdomains (using amass) ---")
+    print("\n--- Enumerating Subdomains (using Amass) ---")
     try:
         result = subprocess.run(['amass', 'enum', '-d', domain], capture_output=True, text=True)
         print(result.stdout)
         write_to_file(f"{output_dir}/alive-subdomains.txt", result.stdout)
     except Exception as e:
-        print(f"amass not found or an error occurred: {e}")
+        print(f"Amass not found or an error occurred: {e}")
 
-# masscan দিয়ে পোর্ট স্ক্যানিং
+# Masscan দিয়ে পোর্ট স্ক্যানিং
 def scan_open_ports(domain, output_dir):
-    print("\n--- Scanning Open Ports (using masscan) ---")
+    print("\n--- Scanning Open Ports (using Masscan) ---")
     try:
         result = subprocess.run(['masscan', domain, '-p1-65535', '--rate=1000'], capture_output=True, text=True)
         print(result.stdout)
         write_to_file(f"{output_dir}/alive-hosts.txt", result.stdout)
     except Exception as e:
-        print(f"masscan not found or an error occurred: {e}")
+        print(f"Masscan not found or an error occurred: {e}")
 
 # Nmap দিয়ে এনুমারেশন
 def nmap_scan(domain, output_dir):
@@ -79,24 +79,24 @@ def nmap_scan(domain, output_dir):
     except Exception as e:
         print(f"Nmap not found or an error occurred: {e}")
 
-# aquatone দিয়ে স্ক্রিনশট নেওয়া
+# Aquatone দিয়ে স্ক্রিনশট নেওয়া
 def take_screenshots(domain, output_dir):
-    print("\n--- Taking Screenshots (using aquatone) ---")
+    print("\n--- Taking Screenshots (using Aquatone) ---")
     try:
         result = subprocess.run(['aquatone', '-scan-timeout', '300', '-http-timeout', '1000', '-out', output_dir], capture_output=True, text=True)
         print("Screenshots saved in Aquatone output directory.")
     except Exception as e:
-        print(f"aquatone not found or an error occurred: {e}")
+        print(f"Aquatone not found or an error occurred: {e}")
 
-# dirsearch দিয়ে ডিরেক্টরি ব্রুটফোর্স
+# Dirsearch দিয়ে ডিরেক্টরি ব্রুটফোর্স
 def directory_bruteforce(url, output_dir):
-    print("\n--- Directory Bruteforce (using dirsearch) ---")
+    print("\n--- Directory Bruteforce (using Dirsearch) ---")
     try:
         result = subprocess.run(['dirsearch', '-u', url, '-e', 'php,html,js'], capture_output=True, text=True)
         print(result.stdout)
         write_to_file(f"{output_dir}/directory_bruteforce.txt", result.stdout)
     except Exception as e:
-        print(f"dirsearch not found or an error occurred: {e}")
+        print(f"Dirsearch not found or an error occurred: {e}")
 
 # ফাংশন চালানোর আগে আউটপুট ফোল্ডার তৈরি করা
 url = input("Enter the URL (e.g., example.com or https://example.com): ")

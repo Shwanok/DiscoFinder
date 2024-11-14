@@ -16,9 +16,12 @@ The following tools must be installed for the **DiscoFinder** tool to work prope
  ```bash
  pip install requests beautifulsoup4
 
-sudo apt install amass masscan nmap metasploit dirsearch
-go install -v github.com/OWASP/Amass/v3/...@master
-go install github.com/OWASP/Amass/v3/...@latest
+
+sudo apt install golang -y
+sudo apt install amass masscan nmap dirsearch metasploit-framework -y 
+go install github.com/michenriksen/aquatone@latest
+go install github.com/owasp-amass/amass/v3/...@latest
+
 git clone https://github.com/Shwanok/DiscoFinder.git
 cd DiscoFinder
 python DiscoFinder.py
